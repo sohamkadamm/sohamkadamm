@@ -66,12 +66,12 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 ---
 
-### Featured Project
+### Projects
 
 <div align="center">
 
-<a href="https://github.com/sohamkadamm/Labelless-AI">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=sohamkadamm&repo=Labelless-AI&theme=tokyonight&hide_border=true&bg_color=07111F&title_color=38BDF8&text_color=CDEFFF" alt="Labelless AI project">
+<a href="https://github.com/sohamkadamm">
+  <img src="https://img.shields.io/badge/View_All_Projects-181717?style=for-the-badge&logo=github&logoColor=white" alt="View all projects on GitHub">
 </a>
 
 </div>
