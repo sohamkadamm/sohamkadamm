@@ -2,7 +2,7 @@
 
 # Hey, I'm Soham Kadam 👋
 
-### Third-Year Computer Engineering Student | Aspiring Data Analyst
+### Third-Year Computer Engineering Student 
 
 <img src="./portrait.svg" width="360" alt="Animated blue and cyan ASCII portrait of Soham">
 
