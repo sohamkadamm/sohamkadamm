@@ -1,5 +1,10 @@
 ## Hi there 👋
 
+<div align="center">
+  <img src="./portrait.svg" width="360" alt="Animated blue and cyan ASCII portrait of Soham Kadam">
+  <p><i>Learn. Build. Improve. Repeat.</i></p>
+</div>
+
 <!--
 **sohamkadamm/sohamkadamm** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
