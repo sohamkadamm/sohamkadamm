@@ -20,7 +20,7 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 - Currently learning **Data Analytics** with SQL, Excel and Power BI.
 - Exploring **Python, AI/ML and software development**.
 - Building projects that combine practical problem-solving with technology.
-- Currently working on **Labelless AI**.
+- Currently working on various projects.
 
 ---
 
