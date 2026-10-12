@@ -66,18 +66,6 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 ---
 
-### Projects
-
-<div align="center">
-
-<a href="https://github.com/sohamkadamm">
-  <img src="https://img.shields.io/badge/View_All_Projects-181717?style=for-the-badge&logo=github&logoColor=white" alt="View all projects on GitHub">
-</a>
-
-</div>
-
----
-
 ### Contribution Snake
 
 <div align="center">
