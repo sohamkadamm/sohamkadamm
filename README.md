@@ -52,21 +52,17 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 <div align="center">
 
+<img width="495" src="https://raw.githubusercontent.com/sohamkadamm/sohamkadamm/output/contribution-total.svg" alt="GitHub all-time contribution total">
+
+</div>
+
+<div align="center">
+
 <img src="https://streak-stats.demolab.com?user=sohamkadamm&theme=tokyonight&hide_border=true&background=07111F&ring=38BDF8&fire=67E8F9&currStreakLabel=38BDF8" alt="GitHub contribution streak">
 
 </div>
 
 ---
-
-### Contribution Activity
-
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/sohamkadamm/sohamkadamm/output/contrib-heatmap.svg" width="100%" alt="Navy and cyan GitHub contribution heatmap">
-
-</div>
-
-
 
 ### Let's Connect
 
@@ -75,5 +71,3 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 *Learning continuously. Building thoughtfully.*
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D47A1,50:1976D2,100:38BDF8&height=100&section=footer" width="100%" alt="Blue gradient footer">
-
-</div>

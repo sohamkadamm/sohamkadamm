@@ -26,14 +26,12 @@ jobs:
           python-version: "3.x"
 
       - name: Install Python dependencies
-        run: |
-          python -m pip install requests beautifulsoup4
+        run: python -m pip install requests
 
       - name: Fetch contribution data
         run: python scripts/fetch_contributions.py
-
-      - name: Generate custom heatmap
-        run: python scripts/render_heatmap_svg.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate contribution snake
         uses: Platane/snk/svg-only@v3
@@ -43,9 +41,8 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: Add custom heatmap to output
-        run: |
-          cp contrib-heatmap.svg dist/contrib-heatmap.svg
+      - name: Generate contribution total card
+        run: python scripts/render_contribution_card.py
 
       - name: Publish graphics
         uses: crazy-max/ghaction-github-pages@v3.1.0
