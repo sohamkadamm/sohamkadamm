@@ -8,14 +8,18 @@ ROOT = Path(__file__).resolve().parent.parent
 INPUT_FILE = ROOT / "data" / "contributions.json"
 OUTPUT_FILE = ROOT / "contrib-heatmap.svg"
 
-# GitHub-inspired contribution colors, from least to most active.
+# Navy-to-cyan palette: level 0 through level 4.
 COLORS = [
-    "#161b22",
-    "#0e4429",
-    "#006d32",
-    "#26a641",
-    "#39d353",
+    "#142033",
+    "#123B5D",
+    "#075985",
+    "#0284C7",
+    "#67E8F9",
 ]
+
+BACKGROUND = "#07111F"
+TEXT_COLOR = "#CDEFFF"
+MUTED_COLOR = "#7F9DB5"
 
 CELL_SIZE = 11
 GAP = 4
@@ -27,16 +31,16 @@ TOP = 42
 def render_heatmap():
     if not INPUT_FILE.exists():
         raise FileNotFoundError(
-            "Contribution data not found. Run fetch_contributions.py first."
+            "Contribution data not found. "
+            "Run scripts/fetch_contributions.py first."
         )
 
     data = json.loads(INPUT_FILE.read_text(encoding="utf-8"))
-    days = data["days"]
+    days = data.get("days", [])
 
     if not days:
-        raise ValueError("The contribution data contains no days.")
+        raise ValueError("Contribution data contains no days.")
 
-    # Build a date-to-level lookup.
     levels = {}
 
     for item in days:
@@ -55,48 +59,72 @@ def render_heatmap():
     first_date = min(levels)
     last_date = max(levels)
 
-    # Align the grid to Sunday, like GitHub's contribution calendar.
+    # Align the grid to Sunday.
     start_date = date.fromordinal(
-        first_date.toordinal() - (first_date.weekday() + 1) % 7
+        first_date.toordinal()
+        - (first_date.weekday() + 1) % 7
     )
     end_date = date.fromordinal(
-        last_date.toordinal() + (6 - (last_date.weekday() + 1) % 7)
+        last_date.toordinal()
+        + (6 - (last_date.weekday() + 1) % 7)
     )
 
-    weeks = ((end_date - start_date).days + 1) // 7
-    width = max(860, LEFT + weeks * STEP + 20)
+    total_days = (end_date - start_date).days + 1
+    weeks = total_days // 7
+
+    width = max(860, LEFT + weeks * STEP + 65)
     height = TOP + 7 * STEP + 32
 
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" '
-        f'width="{width}" height="{height}" '
-        f'viewBox="0 0 {width} {height}">',
+        (
+            f'<svg xmlns="http://www.w3.org/2000/svg" '
+            f'width="{width}" height="{height}" '
+            f'viewBox="0 0 {width} {height}" '
+            f'role="img" aria-labelledby="title desc">'
+        ),
+        f'<title id="title">{escape(data.get("username", "GitHub"))} contribution heatmap</title>',
+        '<desc id="desc">Daily GitHub contribution activity displayed in a cyan and navy calendar.</desc>',
         """
         <style>
+          text {
+            font-family: ui-monospace, SFMono-Regular, Consolas,
+                         "Liberation Mono", monospace;
+          }
+
           .day {
             opacity: 0;
             animation: reveal 0.22s ease-out forwards;
           }
+
+          .label {
+            fill: #7F9DB5;
+            font-size: 10px;
+          }
+
           @keyframes reveal {
             from { opacity: 0; }
             to { opacity: 1; }
           }
-          .label {
-            fill: #8b949e;
-            font: 10px sans-serif;
-          }
+
           @media (prefers-reduced-motion: reduce) {
-            .day { animation: none; opacity: 1; }
+            .day {
+              animation: none;
+              opacity: 1;
+            }
           }
         </style>
         """,
-        '<rect width="100%" height="100%" fill="#0d1117" rx="8"/>',
-        '<text x="12" y="20" fill="#c9d1d9" '
-        'font-family="monospace" font-size="12">'
-        'sohamkadamm@github:~$ contributions</text>',
+        f'<rect width="{width}" height="{height}" fill="{BACKGROUND}" rx="10"/>',
+        (
+            f'<text x="14" y="22" fill="{TEXT_COLOR}" '
+            f'font-size="12" font-weight="600">'
+            f'{escape(data.get("username", "GitHub"))} '
+            f'@ contributions'
+            f'</text>'
+        ),
     ]
 
-    # Weekday labels.
+    # Weekday labels: Sunday-first calendar.
     for label, row in [("Mon", 1), ("Wed", 3), ("Fri", 5)]:
         y = TOP + row * STEP + CELL_SIZE - 2
         parts.append(
@@ -120,13 +148,15 @@ def render_heatmap():
             f'fill="{COLORS[level]}" '
             f'style="animation-delay:{days_since_start * 0.002:.3f}s">'
             f'<title>{escape(current.isoformat())}: '
-            f'activity level {level}</title></rect>'
+            f'activity level {level} of 4</title>'
+            f'</rect>'
         )
 
         current = date.fromordinal(current.toordinal() + 1)
 
-    # Legend.
+    # Activity legend.
     legend_y = height - 17
+
     parts.append(
         f'<text x="{LEFT}" y="{legend_y}" class="label">Less</text>'
     )
@@ -142,8 +172,8 @@ def render_heatmap():
         )
 
     parts.append(
-        f'<text x="{legend_x + 5 * STEP}" y="{legend_y}" '
-        f'class="label">More</text>'
+        f'<text x="{legend_x + 5 * STEP}" '
+        f'y="{legend_y}" class="label">More</text>'
     )
 
     parts.append("</svg>")

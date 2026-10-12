@@ -1,13 +1,13 @@
 
-name: Generate Contribution Snake
+name: Generate GitHub Contribution Graphics
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,15 +15,40 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: Platane/snk/svg-only@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install requests beautifulsoup4
+
+      - name: Fetch contribution data
+        run: python scripts/fetch_contributions.py
+
+      - name: Generate custom heatmap
+        run: python scripts/render_heatmap_svg.py
+
+      - name: Generate contribution snake
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: sohamkadamm
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Add custom heatmap to output
+        run: |
+          cp contrib-heatmap.svg dist/contrib-heatmap.svg
+
+      - name: Publish graphics
+        uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
           build_dir: dist

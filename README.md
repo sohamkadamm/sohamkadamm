@@ -56,11 +56,13 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 </div>
 
+---
+
 ### Contribution Activity
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=sohamkadamm&bg_color=07111F&color=CDEFFF&line=38BDF8&point=67E8F9&area=true&hide_border=true&custom_title=Contribution%20Activity" width="100%" alt="GitHub contribution activity graph">
+<img src="https://raw.githubusercontent.com/sohamkadamm/sohamkadamm/output/contrib-heatmap.svg" width="100%" alt="Navy and cyan GitHub contribution heatmap">
 
 </div>
 
@@ -84,7 +86,7 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 <div align="center">
 
-### Let's connect
+### Let's Connect
 
 [LinkedIn](https://www.linkedin.com/in/soham--kadam/) · [Email](mailto:sohamkadam234@gmail.com)
 
