@@ -28,11 +28,14 @@ def graphql_request(token, query, variables):
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
         },
-        json={"query": query, "variables": variables},
+        json={
+            "query": query,
+            "variables": variables,
+        },
         timeout=30,
     )
-    response.raise_for_status()
 
+    response.raise_for_status()
     result = response.json()
 
     if result.get("errors"):
@@ -55,29 +58,17 @@ def fetch_contributions():
 
     print(f"Fetching contribution history for {USERNAME}...")
 
-    years_query = """
-    query($login: String!) {
-      user(login: $login) {
-        contributionYears
-      }
-    }
-    """
+    # GitHub launched in 2008.
+    # Query each year instead of using the unsupported
+    # GraphQL field 'contributionYears'.
+    today = datetime.now(timezone.utc).date()
+    current_year = today.year
+    years = list(range(2008, current_year + 1))
 
-    result = graphql_request(
-        token,
-        years_query,
-        {"login": USERNAME},
+    print(
+        f"Checking contribution history from "
+        f"{years[0]} to {years[-1]}..."
     )
-
-    user = result.get("user")
-
-    if not user:
-        raise RuntimeError(f"GitHub user not found: {USERNAME}")
-
-    years = sorted(set(user["contributionYears"]))
-
-    if not years:
-        raise RuntimeError("GitHub returned no contribution years.")
 
     calendar_query = """
     query($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -98,7 +89,6 @@ def fetch_contributions():
     }
     """
 
-    today = datetime.now(timezone.utc).date()
     cutoff = today - timedelta(days=370)
 
     all_time_total = 0
@@ -111,7 +101,7 @@ def fetch_contributions():
             tzinfo=timezone.utc,
         )
 
-        if year == today.year:
+        if year == current_year:
             end = datetime.now(timezone.utc)
         else:
             end = datetime.combine(
@@ -133,7 +123,9 @@ def fetch_contributions():
         user_data = result.get("user")
 
         if not user_data:
-            raise RuntimeError("Could not retrieve contribution data.")
+            raise RuntimeError(
+                f"Could not retrieve contribution data for {year}."
+            )
 
         calendar = user_data["contributionsCollection"][
             "contributionCalendar"
@@ -146,7 +138,9 @@ def fetch_contributions():
 
         for week in calendar["weeks"]:
             for day_data in week["contributionDays"]:
-                day_date = date.fromisoformat(day_data["date"])
+                day_date = date.fromisoformat(
+                    day_data["date"]
+                )
 
                 if cutoff <= day_date <= today:
                     recent_days[day_data["date"]] = {
@@ -163,7 +157,9 @@ def fetch_contributions():
     )
 
     if not days:
-        raise RuntimeError("GitHub returned no recent calendar days.")
+        raise RuntimeError(
+            "GitHub returned no recent calendar days."
+        )
 
     data = {
         "username": USERNAME,
@@ -174,7 +170,11 @@ def fetch_contributions():
         "days": days,
     }
 
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
     OUTPUT_FILE.write_text(
         json.dumps(data, indent=2),
         encoding="utf-8",
