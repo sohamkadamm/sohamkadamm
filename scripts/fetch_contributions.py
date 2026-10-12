@@ -58,12 +58,40 @@ def fetch_contributions():
 
     print(f"Fetching contribution history for {USERNAME}...")
 
-    # GitHub launched in 2008.
-    # Query each year instead of using the unsupported
-    # GraphQL field 'contributionYears'.
-    today = datetime.now(timezone.utc).date()
-    current_year = today.year
-    years = list(range(2008, current_year + 1))
+    # Fetch the years supported by GitHub's contribution API.
+    years_query = """
+    query($login: String!) {
+      user(login: $login) {
+        contributionsCollection {
+          contributionYears
+        }
+      }
+    }
+    """
+
+    result = graphql_request(
+        token,
+        years_query,
+        {"login": USERNAME},
+    )
+
+    user = result.get("user")
+
+    if not user:
+        raise RuntimeError(
+            f"GitHub user not found: {USERNAME}"
+        )
+
+    years = sorted(
+        set(
+            user["contributionsCollection"]["contributionYears"]
+        )
+    )
+
+    if not years:
+        raise RuntimeError(
+            "GitHub returned no contribution years."
+        )
 
     print(
         f"Checking contribution history from "
@@ -89,6 +117,7 @@ def fetch_contributions():
     }
     """
 
+    today = datetime.now(timezone.utc).date()
     cutoff = today - timedelta(days=370)
 
     all_time_total = 0
@@ -101,7 +130,7 @@ def fetch_contributions():
             tzinfo=timezone.utc,
         )
 
-        if year == current_year:
+        if year == today.year:
             end = datetime.now(timezone.utc)
         else:
             end = datetime.combine(
