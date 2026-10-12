@@ -60,7 +60,7 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=sohamkadamm&bg_color=07111F&color=CDEFFF&line=38BDF8&point=67E8F9&area=true&hide_border=true" width="100%" alt="GitHub contribution graph">
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=sohamkadamm&bg_color=07111F&color=CDEFFF&line=38BDF8&point=67E8F9&area=true&hide_border=true" width="100%" alt="Live GitHub contribution activity graph">
 
 </div>
 
