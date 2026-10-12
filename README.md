@@ -60,7 +60,7 @@ I'm a third-year Computer Engineering student at VIT Pune, interested in underst
 
 <div align="center">
 
-[![GitHub Profile](https://img.shields.io/badge/View-GitHub_Contributions-0A66C2?style=for-the-badge&logo=github)](https://github.com/sohamkadamm)
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=sohamkadamm&bg_color=07111F&color=CDEFFF&line=38BDF8&point=67E8F9&area=true&hide_border=true&custom_title=Contribution%20Activity" width="100%" alt="GitHub contribution activity graph">
 
 </div>
 
