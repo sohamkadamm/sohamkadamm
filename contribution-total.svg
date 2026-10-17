@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="495" height="150" viewBox="0 0 495 150"
+     role="img" aria-labelledby="title desc">
+  <title id="title">GitHub All-Time Contributions</title>
+  <desc id="desc">Total contributions across available contribution years.</desc>
+  <rect width="495" height="150" rx="14"
+        fill="#07111F" stroke="#123B5D"/>
+  <text x="25" y="35" fill="#CDEFFF"
+        font-family="Arial, sans-serif" font-size="15">
+    GITHUB CONTRIBUTIONS
+  </text>
+  <text x="25" y="91" fill="#67E8F9"
+        font-family="Arial, sans-serif" font-size="43"
+        font-weight="700">54</text>
+  <text x="27" y="119" fill="#7F9DB5"
+        font-family="Arial, sans-serif" font-size="12">
+    ALL-TIME TOTAL · UPDATED 2026-10-17
+  </text>
+  <rect x="440" y="25" width="28" height="4" rx="2"
+        fill="#38BDF8"/>
+</svg>
